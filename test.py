@@ -69,8 +69,8 @@ def main(args):
         print(args)
         print('Start Tensorboard with "tensorboard --logdir=runs", view at http://localhost:6006/')
         tb_writer = SummaryWriter(log_dir=r'/root/data/nas/hcm')
-        if os.path.exists("./weights") is False:
-            os.makedirs("./weights")
+        if os.path.exists("/root/data/nas/hcm/weights") is False:
+            os.makedirs("/root/data/nas/hcm/weights")
 
     # 实例化训练数据集
     train_data = MyDataset(r'/root/data/nas/hcm/bl_data_poc_oversampling_train.csv')
