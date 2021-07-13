@@ -68,13 +68,13 @@ def main(args):
     if rank == 0:  # 在第一个进程中打印信息，并实例化tensorboard
         print(args)
         print('Start Tensorboard with "tensorboard --logdir=runs", view at http://localhost:6006/')
-        tb_writer = SummaryWriter()
+        tb_writer = SummaryWriter(log_dir=r'/root/data/nas/hcm')
         if os.path.exists("./weights") is False:
             os.makedirs("./weights")
 
     # 实例化训练数据集
-    train_data = MyDataset(r'/home/chaomin/task/blin_poc/dlc/bl_data_poc_oversampling_train.csv')
-    test_data = MyDataset(r'/home/chaomin/task/blin_poc/dlc/bl_data_poc_oversampling_test.csv')
+    train_data = MyDataset(r'/root/data/nas/hcm/bl_data_poc_oversampling_train.csv')
+    test_data = MyDataset(r'/root/data/nas/hcm/bl_data_poc_oversampling_test.csv')
 
     # 给每个rank对应的进程分配训练的样本索引
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_data)
@@ -146,7 +146,7 @@ def main(args):
             tb_writer.add_scalar(tags[1], acc, epoch)
             tb_writer.add_scalar(tags[2], optimizer.param_groups[0]["lr"], epoch)
 
-            torch.save(model.module.state_dict(), "./weights/model-{}.pth".format(epoch))
+            torch.save(model.module.state_dict(), "/root/data/nas/hcm/weights/model-{}.pth".format(epoch))
 
     # 删除临时缓存文件
     if rank == 0:
